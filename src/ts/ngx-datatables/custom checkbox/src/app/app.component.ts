@@ -29,15 +29,13 @@ export class AppComponent {
     })
   }
 
+
   public onCheckboxChange(event: any, row: any): void {
-    debugger
     if (this.getChecked(row) === false) {
-      // add
       this.selected.push(row);
     } else {
-      // remove
       for (let i = 0; i < this.selected.length; i++) {
-        if (this.selected[i].id === row.id && this.selected[i].site_code === row.site_code) {
+        if (this.selected[i].id === row.id) {
           this.selected.splice(i, 1);
           break;
         }
@@ -46,12 +44,13 @@ export class AppComponent {
   }
 
   public getChecked(row: any): boolean {
-    const item = this.selected.filter((e) => e.id === row.id && e.site_code === row.site_code);
+    const item = this.selected.filter((e) => e.id === row.id);
     return item.length > 0 ? true : false;
   }
 
-  onSelectRow(data) {
-    this.selected = data.selected
+  public getHeaderChecked(): boolean {
+    const selectedIds = new Set(this.selected.map(item => item.id));
+    return this.rows.every(item => selectedIds.has(item.id));
   }
 
 }

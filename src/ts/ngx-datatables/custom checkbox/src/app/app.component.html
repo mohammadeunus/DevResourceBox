@@ -1,15 +1,14 @@
 <div class="p-5">
   <p>Start editing to see some magic happen :)</p>
-  <ngx-datatable class="material tableFix" [rows]="rows" [count]="pagination && pagination.total_record"
-    [limit]="pagination && pagination.page_size" [footerHeight]='120' [headerHeight]="'auto'" [rowHeight]="'auto'"
-    (select)="onSelectRow($event)" [selectionType]="'checkbox'" default>
+  <ngx-datatable [rows]="customer.items" [limit]="list.maxResultCount" [count]="customer.totalCount" [list]="list"
+    [footerHeight]='120' [headerHeight]="'auto'" [rowHeight]="'auto'" [selected]="selected" [selectionType]="'checkbox'"
+    default>
 
     <ngx-datatable-column [width]="30" [sortable]="false" [canAutoResize]="false" [draggable]="false"
       [resizeable]="false">
-      <ng-template ngx-datatable-header-template let-value="value" let-allRowsSelected="allRowsSelected"
-        let-selectFn="selectFn">
+      <ng-template ngx-datatable-header-template>
         <label class="datatable-checkbox">
-          <input type="checkbox" [checked]="allRowsSelected" (change)="selectFn(!allRowsSelected)" />
+          <input type="checkbox" [checked]="getHeaderChecked()" (change)="toggleAllRowsSelection($event)" />
         </label>
       </ng-template>
       <ng-template ngx-datatable-cell-template let-row="row" let-isSelected="isSelected"
