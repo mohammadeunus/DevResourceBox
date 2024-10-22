@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DataTables Row Reorder with Inline Editing</title>
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.13.4/css/jquery.dataTables.min.css">
+    <link rel="stylesheet" href="datatables.min.css">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+        }
+        table {
+            width: 100%;
+            margin: 0 auto;
+            border-collapse: collapse;
+        }
+        td.editable {
+            cursor: pointer;
+            background-color: #f9f9f9;
+        }
+    </style>
+</head>
+<body>
+    <h2>DataTables Row Reorder with Inline Editing</h2>
+    <table id="example" class="display dataTable" style="width: 100%; position: relative;">
+        <thead>
+            <tr role="row">
+                <th>Seq.</th>
+                <th>Name</th>
+                <th>Position</th>
+                <th>Office</th>
+                <th>Start date</th>
+                <th>Salary</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>1</td>
+                <td class="editable">Shou Itou</td>
+                <td class="editable">Regional Marketing</td>
+                <td class="editable">Tokyo</td>
+                <td class="editable">2011-08-14</td>
+                <td class="editable">$163,000</td>
+            </tr>
+            <tr>
+                <td>2</td>
+                <td class="editable">Tiger Nixon</td>
+                <td class="editable">System Architect</td>
+                <td class="editable">Edinburgh</td>
+                <td class="editable">2011-04-25</td>
+                <td class="editable">$320,800</td>
+            </tr>
+            <tr>
+                <td>3</td>
+                <td class="editable">Bruno Nash</td>
+                <td class="editable">Software Engineer</td>
+                <td class="editable">London</td>
+                <td class="editable">2011-05-03</td>
+                <td class="editable">$163,500</td>
+            </tr>
+            <tr>
+                <td>4</td>
+                <td class="editable">Fiona Green</td>
+                <td class="editable">Chief Operating Officer (COO)</td>
+                <td class="editable">San Francisco</td>
+                <td class="editable">2010-03-11</td>
+                <td class="editable">$850,000</td>
+            </tr> 
+        </tbody> 
+    </table>
+
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdn.datatables.net/1.13.4/js/jquery.dataTables.min.js"></script>
+    <script src="datatables.min.js"></script>
+    <script type="text/javascript" language="javascript">
+        $(document).ready(function() {
+            var table = $('#example').DataTable({
+                rowReorder: true
+            });
+
+            $('#example tbody').on('click', 'td.editable', function() {
+                var cell = table.cell(this);
+                var originalValue = cell.data();
+
+                var input = $('<input>', {
+                    type: 'text',
+                    value: originalValue
+                });
+
+                $(this).html(input);
+
+                input.focus().on('blur keyup', function(e) {
+                    if (e.type === 'blur' || e.keyCode === 13) {
+                        var newValue = input.val();
+                        cell.data(newValue).draw();
+                    }
+                });
+            });
+        });
+    </script>
+</body>
+</html>
